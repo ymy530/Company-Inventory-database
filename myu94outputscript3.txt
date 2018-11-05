@@ -1,0 +1,170 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+SELECT description from products
+--------------
+
+description
+Bike
+Socks
+Elbow pads
+Knee Pads
+Roller Blades
+head pads
+Helmet
+--------------
+SELECT DISTINCT city FROM customers
+--------------
+
+city
+Boston
+Springfield
+Krypto
+Providence
+--------------
+SELECT * FROM agents ORDER BY city
+--------------
+
+agentid	firstname	lastname	city	commission
+33	David	Letterman	Bedrock	100
+11	Regis	Philbin	Boston	33
+22	Courtney	Cox	New York	25
+12	Rosie	Cox	Ottawa	50
+66	Rosie	ODonnell	Ottawa	100
+99	Hugh	Grant	Springfield	16
+57	Mingyi	Yu	Toronto	58
+--------------
+SELECT firstname, lastname 
+FROM customers 
+WHERE city = 'Springfield'
+--------------
+
+firstname	lastname
+Monty	Burns
+Homer	Simpson
+Sideshow	Bob
+--------------
+SELECT lastname 
+FROM customers 
+WHERE agent = (SELECT agentid FROM agents WHERE firstname = 'Regis')
+--------------
+
+lastname
+Rubble
+Flintstone
+--------------
+SELECT description 
+FROM products 
+WHERE description LIKE '%pad%' OR description LIKE '%Pad%'
+--------------
+
+description
+Elbow pads
+Knee Pads
+head pads
+--------------
+SELECT  customers.lastname, description, purchasequantity 
+FROM    purchased INNER JOIN  customers ON customers.customerid = purchased.customerid 
+INNER JOIN products ON products.productid = purchased.productid
+--------------
+
+lastname	description	purchasequantity
+Griffens	Elbow pads	19
+Flintstone	Elbow pads	2
+Flintstone	Knee Pads	2
+Simpson	Socks	14
+Simpson	Elbow pads	10
+Simpson	Helmet	20
+Bob	Socks	5
+Bob	Elbow pads	5
+Bob	Knee Pads	5
+Bob	Helmet	5
+--------------
+SELECT  SUM(purchasequantity) AS "Homer's Total purchases"
+FROM    purchased INNER JOIN customers ON customers.customerid = purchased.customerid 
+WHERE   firstname = 'Homer' 
+GROUP   BY firstname
+--------------
+
+Homer's Total purchases
+44
+--------------
+SELECT   firstname, lastname, SUM(purchasequantity) AS 'Total number of purchases'
+FROM     purchased INNER JOIN customers
+         ON customers.customerid = purchased.customerid
+GROUP BY firstname, lastname
+--------------
+
+firstname	lastname	Total number of purchases
+Fred	Flintstone	4
+Homer	Simpson	44
+Peter	Griffens	19
+Sideshow	Bob	20
+--------------
+SELECT   description, products.quantity
+FROM     products LEFT JOIN purchased 
+         ON products.productid = purchased.productid
+WHERE    purchased.productid IS NULL
+--------------
+
+description	quantity
+Bike	200
+Roller Blades	89
+head pads	666
+--------------
+SELECT description, quantity
+FROM products 
+WHERE productid NOT IN
+(SELECT productid FROM purchased INNER JOIN customers ON purchased.customerid = customers.customerid WHERE firstname = 'Fred' AND lastname = 'Flintstone')
+--------------
+
+description	quantity
+Bike	200
+Socks	100
+Roller Blades	89
+head pads	666
+Helmet	30
+--------------
+SELECT agents.firstname AS 'agent.firstname' ,agents.lastname AS 'agent.lastname',customers.firstname AS 'customers.firstname',customers.lastname 'customers.lastname'
+FROM agents INNER JOIN customers ON agent = agentid
+WHERE agents.city = customers.city
+--------------
+
+agent.firstname	agent.lastname	customers.firstname	customers.lastname
+Regis	Philbin	Barney	Rubble
+Regis	Philbin	Fred	Flintstone
+Hugh	Grant	Monty	Burns
+Hugh	Grant	Homer	Simpson
+--------------
+SELECT SUM(purchasequantity) AS 'Total number of Knee Pads purchased'
+FROM  products INNER JOIN purchased 
+         ON products.productid = purchased.productid
+WHERE description LIKE '%Knee%'
+--------------
+
+Total number of Knee Pads purchased
+7
+--------------
+SELECT description 
+From products
+WHERE 
+productid IN (SELECT products.productid
+From products INNER JOIN purchased ON products.productid = purchased.productid
+GROUP BY products.productid
+Having COUNT(customerid) > 3)
+--------------
+
+description
+Elbow pads
+--------------
+SELECT agents.firstname, agents.lastname
+FROM agents INNER JOIN customers ON agentid = agent
+WHERE customerid IN (SELECT customers.customerid 
+FROM customers INNER JOIN purchased ON customers.customerid = purchased.customerid
+WHERE productid = (SELECT productid 
+FROM products 
+WHERE description LIKE '%Knee Pads%' OR description LIKE '%Knee pads%'))
+--------------
+
+firstname	lastname
+Regis	Philbin
+Rosie	ODonnell

@@ -1,0 +1,130 @@
+Warning: Using a password on the command line interface can be insecure.
+ERROR 1451 (23000) at line 36: Cannot delete or update a parent row: a foreign key constraint fails (`myu94assign2db`.`customers`, CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`agent`) REFERENCES `agents` (`agentid`))
+--------------
+SELECT * FROM products
+--------------
+
+productid	description	cost	quantity
+11	Bike	150.00	200
+12	Socks	2.00	100
+66	Elbow pads	14.25	120
+78	Knee Pads	12.15	70
+88	Roller Blades	75.00	89
+98	head pads	12.00	666
+99	Helmet	29.00	30
+--------------
+SELECT * FROM agents
+--------------
+
+agentid	firstname	lastname	city	commission
+11	Regis	Philbin	Boston	33
+12	Rosie	Cox	Ottawa	50
+22	Courtney	Cox	New York	25
+33	David	Letterman	Bedrock	100
+57	Mingyi	Yu	Toronto	58
+66	Rosie	ODonnell	Ottawa	100
+99	Hugh	Grant	Springfield	16
+--------------
+SELECT * FROM customers
+--------------
+
+customerid	firstname	lastname	city	phone	agent
+10	Barney	Rubble	Boston	777-1234	11
+12	Monty	Burns	Springfield	789-0000	99
+13	Wonder	Woman	Krypto	888-1234	33
+14	Peter	Griffens	Providence	987-4567	99
+15	Fred	Flintstone	Boston	777-2345	11
+21	Homer	Simpson	Springfield	686-8956	99
+31	Sideshow	Bob	Springfield	686-5555	66
+--------------
+SELECT * FROM purchased
+--------------
+
+customerid	purchasequantity	productid
+14	19	66
+15	2	66
+15	2	78
+21	14	12
+21	10	66
+21	20	99
+31	5	12
+31	5	66
+31	5	78
+31	5	99
+--------------
+CREATE VIEW v AS 
+SELECT   firstname, lastname, description, purchasequantity AS quantity, cost, purchasequantity * cost AS 'Total cost'
+From customers INNER JOIN purchased ON customers.customerid = purchased.customerid
+INNER JOIN products ON products.productid = purchased.productid
+ORDER BY lastname
+--------------
+
+--------------
+SELECT * FROM v
+--------------
+
+firstname	lastname	description	quantity	cost	Total cost
+Sideshow	Bob	Socks	5	2.00	10
+Sideshow	Bob	Elbow pads	5	14.25	71.25
+Sideshow	Bob	Knee Pads	5	12.15	60.75
+Sideshow	Bob	Helmet	5	29.00	145
+Fred	Flintstone	Elbow pads	2	14.25	28.5
+Fred	Flintstone	Knee Pads	2	12.15	24.3
+Peter	Griffens	Elbow pads	19	14.25	270.75
+Homer	Simpson	Socks	14	2.00	28
+Homer	Simpson	Elbow pads	10	14.25	142.5
+Homer	Simpson	Helmet	20	29.00	580
+--------------
+SELECT * 
+FROM v
+WHERE quantity * cost > 100
+--------------
+
+firstname	lastname	description	quantity	cost	Total cost
+Sideshow	Bob	Helmet	5	29.00	145
+Peter	Griffens	Elbow pads	19	14.25	270.75
+Homer	Simpson	Elbow pads	10	14.25	142.5
+Homer	Simpson	Helmet	20	29.00	580
+--------------
+SELECT * FROM products
+--------------
+
+productid	description	cost	quantity
+11	Bike	150.00	200
+12	Socks	2.00	100
+66	Elbow pads	14.25	120
+78	Knee Pads	12.15	70
+88	Roller Blades	75.00	89
+98	head pads	12.00	666
+99	Helmet	29.00	30
+--------------
+DELETE FROM products WHERE description LIKE '%head pads%'
+--------------
+
+--------------
+SELECT * FROM products
+--------------
+
+productid	description	cost	quantity
+11	Bike	150.00	200
+12	Socks	2.00	100
+66	Elbow pads	14.25	120
+78	Knee Pads	12.15	70
+88	Roller Blades	75.00	89
+99	Helmet	29.00	30
+--------------
+SELECT * FROM agents
+--------------
+
+agentid	firstname	lastname	city	commission
+11	Regis	Philbin	Boston	33
+12	Rosie	Cox	Ottawa	50
+22	Courtney	Cox	New York	25
+33	David	Letterman	Bedrock	100
+57	Mingyi	Yu	Toronto	58
+66	Rosie	ODonnell	Ottawa	100
+99	Hugh	Grant	Springfield	16
+--------------
+DELETE FROM agents WHERE city = 'Springfield'
+--------------
+
