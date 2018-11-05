@@ -37,4 +37,5 @@ DELETE FROM agents WHERE city = 'Springfield';
 
 SELECT * FROM agents;
 
--- The row for agent who are from Springfield was deleted because the agentid is the foreign key in customers table and the agent from Springfield has two customers in customers table.
+-- The row for agent who are from Springfield was deleted because the agentid is the foreign key in customers table and the agent from Springfield has two customers in customers table.Because of violate referential constraint, this row cannot be deleted.
+w
