@@ -1,0 +1,133 @@
+Warning: Using a password on the command line interface can be insecure.
+--------------
+DESCRIBE Products
+--------------
+
+Field	Type	Null	Key	Default	Extra
+ProductID	char(2)	NO	PRI	NULL	
+Description	varchar(20)	YES		NULL	
+Cost	varchar(10)	YES		NULL	
+Quantity	varchar(10)	YES		NULL	
+--------------
+SELECT DISTINCT City FROM Customers
+--------------
+
+--------------
+SELECT * FROM Agents ORDER BY City
+--------------
+
+AgentID	FirstName	LastName	City	Commission
+33	David	Letterman	Bedrock	100
+11	Regis	Philbin	Boston	33
+22	Courtney	Cox	New York	25
+12	Rosie	Cox	Ottawa	50
+66	Rosie	ODonnell	Ottawa	100
+99	Hugh	Grant	Springfield	16
+57	Mingyi	Yu	Toronto	58
+--------------
+SELECT FirstName, LastName 
+FROM Customers 
+WHERE City = 'Springfield'
+--------------
+
+--------------
+SELECT LastName 
+FROM Customers 
+WHERE Agent = (SELECT AgentID FROM Agents WHERE FirstName = 'Regis')
+--------------
+
+--------------
+SELECT Description 
+FROM Products 
+WHERE Description LIKE '%pad%' OR Description LIKE '%Pad%'
+--------------
+
+Description
+Elbow pads
+Knee Pads
+head pads
+--------------
+SELECT  Customers.LastName, Description, PurchaseQuantity 
+FROM    Purchased INNER JOIN  Customers ON Customers.CustomerID = Purchased.CustomerID 
+INNER JOIN Products ON Products.ProductID = Purchased.ProductID
+--------------
+
+--------------
+SELECT  SUM(PurchaseQuantity) AS "Homer's Total Purchases"
+FROM    Purchased INNER JOIN Customers ON Customers.CustomerID = Purchased.CustomerID 
+WHERE   FirstName = 'Homer' 
+GROUP   BY FirstName
+--------------
+
+--------------
+SELECT   FirstName, LastName, SUM(PurchaseQuantity) AS 'Total number of Purchases'
+FROM     Purchased INNER JOIN Customers
+         ON Customers.CustomerID = Purchased.CustomerID
+GROUP BY FirstName, LastName
+--------------
+
+--------------
+SELECT   Description, Products.Quantity
+FROM     Products LEFT JOIN Purchased 
+         ON Products.ProductID = Purchased.ProductID
+WHERE    Purchased.ProductID IS NULL
+--------------
+
+Description	Quantity
+Bike	200
+Socks	100
+Elbow pads	120
+Knee Pads	70
+Roller Blades	89
+head pads	666
+Helmet	30
+--------------
+SELECT Description, Quantity
+FROM Products 
+WHERE ProductID NOT IN
+(SELECT ProductID FROM Purchased INNER JOIN Customers ON Purchased.CustomerID = Customers.CustomerID WHERE FirstName = 'Fred' AND LastName = 'Flintstone')
+--------------
+
+Description	Quantity
+Bike	200
+Socks	100
+Elbow pads	120
+Knee Pads	70
+Roller Blades	89
+head pads	666
+Helmet	30
+--------------
+SELECT Agents.FirstName AS 'Agent.FirstName' ,Agents.LastName AS 'Agent.LastName',Customers.FirstName AS 'Customers.FirstName',Customers.LastName 'Customers.LastName'
+FROM Agents INNER JOIN Customers ON Agent = AgentID
+WHERE Agents.City = Customers.City
+--------------
+
+--------------
+SELECT SUM(PurchaseQuantity) AS 'Total number of Knee Pads Purchased'
+FROM  Products INNER JOIN Purchased 
+         ON Products.ProductID = Purchased.ProductID
+WHERE Description LIKE '%Knee%'
+--------------
+
+Total number of Knee Pads Purchased
+NULL
+--------------
+SELECT Description 
+From Products
+WHERE 
+ProductID IN (SELECT Products.ProductID
+From Products INNER JOIN Purchased ON Products.ProductID = Purchased.ProductID
+GROUP BY Products.ProductID
+Having COUNT(CustomerID) > 3)
+--------------
+
+--------------
+SELECT Agents.FirstName, Agents.LastName
+FROM Agents INNER JOIN Customers ON AgentID = Agent
+WHERE CustomerID IN (SELECT Customers.CustomerID 
+FROM Customers INNER JOIN Purchased ON Customers.CustomerID = Purchased.CustomerID
+WHERE ProductID = (SELECT ProductID 
+FROM Products 
+WHERE Description LIKE '%Knee Pads%' OR Description LIKE '%Knee pads%'))
+--------------
+
