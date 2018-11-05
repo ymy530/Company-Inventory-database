@@ -1,0 +1,87 @@
+Warning: Using a password on the command line interface can be insecure.
+ERROR 1064 (42000) at line 24: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--Customers
+SELECT * FROM Customers' at line 1
+--------------
+LOAD DATA LOCAL INFILE 'product.txt' INTO TABLE Products
+  FIELDS TERMINATED BY ','
+--------------
+
+--------------
+SELECT * FROM Products
+--------------
+
+ProductID	Description	Cost	Quantity
+11	Bike	150.00	200
+12	Socks	2.00	100
+78	Knee Pads	12.15	70
+88	Roller Blades	75.00	89
+99	Helmet	29.00	30
+--------------
+INSERT INTO Products VALUES('66','Elbow pads','14.25', '120')
+--------------
+
+--------------
+INSERT INTO Products VALUES('98','head pads','12.00', '666')
+--------------
+
+--------------
+SELECT * FROM Products
+--------------
+
+ProductID	Description	Cost	Quantity
+11	Bike	150.00	200
+12	Socks	2.00	100
+66	Elbow pads	14.25	120
+78	Knee Pads	12.15	70
+88	Roller Blades	75.00	89
+98	head pads	12.00	666
+99	Helmet	29.00	30
+--------------
+SELECT * FROM Agents
+--------------
+
+--------------
+INSERT INTO Agents VALUES('99','Hugh','Grant', 'Springfield', '16')
+--------------
+
+--------------
+INSERT INTO Agents VALUES('22','Courtney','Cox', 'New York', '25')
+--------------
+
+--------------
+INSERT INTO Agents VALUES('66','Rosie','ODonnell', 'Ottawa', '100')
+--------------
+
+--------------
+INSERT INTO Agents VALUES('33','David','Letterman', 'Bedrock', '100')
+--------------
+
+--------------
+INSERT INTO Agents VALUES('11','Regis','Philbin', 'Boston', '33')
+--------------
+
+--------------
+INSERT INTO Agents VALUES('12','Rosie','Cox', 'Ottawa', '50')
+--------------
+
+--------------
+INSERT INTO Agents VALUES('57','Mingyi','Yu', 'Toronto', '58')
+--------------
+
+--------------
+SELECT * FROM Agents
+--------------
+
+AgentID	FirstName	LastName	City	Commission
+11	Regis	Philbin	Boston	33
+12	Rosie	Cox	Ottawa	50
+22	Courtney	Cox	New York	25
+33	David	Letterman	Bedrock	100
+57	Mingyi	Yu	Toronto	58
+66	Rosie	ODonnell	Ottawa	100
+99	Hugh	Grant	Springfield	16
+--------------
+--Customers
+SELECT * FROM Customers
+--------------
+
