@@ -1,3 +1,5 @@
+USE myu94assign2db;
+
 -- 1.	Show the description of all the products
 DESCRIBE Products;
 

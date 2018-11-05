@@ -1,4 +1,6 @@
-LOAD DATA LOCAL INFILE 'project.txt' INTO TABLE Products
+USE myu94assign2db;
+
+LOAD DATA LOCAL INFILE 'product.txt' INTO TABLE Products
   FIELDS TERMINATED BY ',';
   
 SELECT * FROM Products;

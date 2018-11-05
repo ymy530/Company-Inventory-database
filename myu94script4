@@ -1,3 +1,5 @@
+USE myu94assign2db;
+
 SELECT * FROM Products;
 
 SELECT * FROM Agents;
