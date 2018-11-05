@@ -1,94 +1,88 @@
 USE myu94assign2db;
 
-LOAD DATA LOCAL INFILE 'product.txt' INTO TABLE Products
+-- load data from local file to products table
+LOAD DATA LOCAL INFILE 'product.txt' INTO TABLE products
   FIELDS TERMINATED BY ',';
   
-SELECT * FROM Products;
--- Products
-INSERT INTO Products VALUES('66','Elbow pads','14.25', '120');
+-- insert values to products table
+SELECT * FROM products;
+INSERT INTO products VALUES('66','Elbow pads','14.25', '120');
 
-INSERT INTO Products VALUES('98','head pads','12.00', '666');
+INSERT INTO products VALUES('98','head pads','12.00', '666');
 
-SELECT * FROM Products;
--- Agents
-SELECT * FROM Agents;
-INSERT INTO Agents VALUES('99','Hugh','Grant', 'Springfield', '16');
-INSERT INTO Agents VALUES('22','Courtney','Cox', 'New York', '25');
-INSERT INTO Agents VALUES('66','Rosie','ODonnell', 'Ottawa', '100');
-INSERT INTO Agents VALUES('33','David','Letterman', 'Bedrock', '100');
-INSERT INTO Agents VALUES('11','Regis','Philbin', 'Boston', '33');
-INSERT INTO Agents VALUES('12','Rosie','Cox', 'Ottawa', '50');
-INSERT INTO Agents VALUES('57','Mingyi','Yu', 'Toronto', '58');
-SELECT * FROM Agents;
+SELECT * FROM products;
 
---Customers
-SELECT * FROM Customers;
-INSERT INTO Customers VALUES('21','Homer','Simpson', 'Springfield', '686-8956', (SELECT AgentID FROM Agents WHERE FirstName = 'Hugh' AND LastName='Grant'));
-INSERT INTO Customers VALUES('31','Sideshow','Bob', 'Springfield', '686-5555', (SELECT AgentID FROM Agents WHERE FirstName = 'Rosie' AND LastName='ODonnell'));
-INSERT INTO Customers VALUES('12','Monty','Burns', 'Springfield', '789-0000', (SELECT AgentID FROM Agents WHERE FirstName = 'Hugh' AND LastName='Grant'));
-INSERT INTO Customers VALUES('15','Fred','Flintstone', 'Bedtock', '777-2345', (SELECT AgentID FROM Agents WHERE FirstName = 'Regis' AND LastName='Philbin'));
-INSERT INTO Customers VALUES('13','Super','Man', 'Krypto', '888-1234', (SELECT AgentID FROM Agents WHERE FirstName = 'David' AND LastName='Letterman'));
-INSERT INTO Customers VALUES('10','Barney','Rubble', 'Bedrock', '777-1234', (SELECT AgentID FROM Agents WHERE FirstName = 'Regis' AND LastName='Philbin'));
-INSERT INTO Customers VALUES('14','Peter','Griffens', 'Providence', '987-4567', (SELECT AgentID FROM Agents WHERE FirstName = 'Hugh' AND LastName='Grant'));
-SELECT * FROM Customers;
+-- insert values to agents table
+SELECT * FROM agents;
+INSERT INTO agents VALUES('99','Hugh','Grant', 'Springfield', '16');
+INSERT INTO agents VALUES('22','Courtney','Cox', 'New York', '25');
+INSERT INTO agents VALUES('66','Rosie','ODonnell', 'Ottawa', '100');
+INSERT INTO agents VALUES('33','David','Letterman', 'Bedrock', '100');
+INSERT INTO agents VALUES('11','Regis','Philbin', 'Boston', '33');
+INSERT INTO agents VALUES('12','Rosie','Cox', 'Ottawa', '50');
+INSERT INTO agents VALUES('57','Mingyi','Yu', 'Toronto', '58');
+SELECT * FROM agents;
 
--- Purchasing Info
-SELECT * FROM Purchased;
-INSERT INTO Purchased VALUES('21','20','99');
-INSERT INTO Purchased VALUES('21','14','12');
-INSERT INTO Purchased VALUES('21','10','66');
-INSERT INTO Purchased VALUES('31','1','99');
-INSERT INTO Purchased VALUES('31','2','12');
-INSERT INTO Purchased VALUES('31','4','78');
-INSERT INTO Purchased VALUES('31','2','66');
-INSERT INTO Purchased VALUES('15','2','66');
-INSERT INTO Purchased VALUES('15','2','78');
-INSERT INTO Purchased VALUES('14','19','66');
-SELECT * FROM Purchased;
+-- insert values to customers table
+SELECT * FROM customers;
+INSERT INTO customers VALUES('21','Homer','Simpson', 'Springfield', '686-8956', (SELECT agentid FROM agents WHERE firstname = 'Hugh' AND lastname='Grant'));
+INSERT INTO customers VALUES('31','Sideshow','Bob', 'Springfield', '686-5555', (SELECT agentid FROM agents WHERE firstname = 'Rosie' AND lastname='ODonnell'));
+INSERT INTO customers VALUES('12','Monty','Burns', 'Springfield', '789-0000', (SELECT agentid FROM agents WHERE firstname = 'Hugh' AND lastname='Grant'));
+INSERT INTO customers VALUES('15','Fred','Flintstone', 'Bedtock', '777-2345', (SELECT agentid FROM agents WHERE firstname = 'Regis' AND lastname='Philbin'));
+INSERT INTO customers VALUES('13','Super','Man', 'Krypto', '888-1234', (SELECT agentid FROM agents WHERE firstname = 'David' AND lastname='Letterman'));
+INSERT INTO customers VALUES('10','Barney','Rubble', 'Bedrock', '777-1234', (SELECT agentid FROM agents WHERE firstname = 'Regis' AND lastname='Philbin'));
+INSERT INTO customers VALUES('14','Peter','Griffens', 'Providence', '987-4567', (SELECT agentid FROM agents WHERE firstname = 'Hugh' AND lastname='Grant'));
+SELECT * FROM customers;
+
+-- insert values to purchased table
+SELECT * FROM purchased;
+INSERT INTO purchased VALUES('21','20','99');
+INSERT INTO purchased VALUES('21','14','12');
+INSERT INTO purchased VALUES('21','10','66');
+INSERT INTO purchased VALUES('31','1','99');
+INSERT INTO purchased VALUES('31','2','12');
+INSERT INTO purchased VALUES('31','4','78');
+INSERT INTO purchased VALUES('31','2','66');
+INSERT INTO purchased VALUES('15','2','66');
+INSERT INTO purchased VALUES('15','2','78');
+INSERT INTO purchased VALUES('14','19','66');
+SELECT * FROM purchased;
 
 -- show all tables
-SELECT * FROM Products;
+SELECT * FROM products;
 
-SELECT * FROM Agents;
+SELECT * FROM agents;
 
-SELECT * FROM Customers;
+SELECT * FROM customers;
 
-SELECT * FROM Purchased;
+SELECT * FROM purchased;
 
 -- Change the name of the Super Man customer to be Wonder Woman
-SELECT * FROM Customers;
+SELECT * FROM customers;
 
-UPDATE Customers SET FirstName = 'Wonder', LastName = 'Woman' WHERE (FirstName = 'Super' AND LastName = 'Man');
+UPDATE customers SET firstname = 'Wonder', lastname = 'Woman' WHERE (firstname = 'Super' AND lastname = 'Man');
 
-SELECT * FROM Customers;
+SELECT * FROM customers;
 
 -- every product that Sideshow purchase was a quantity of 5
-SELECT * FROM Purchased;
+SELECT * FROM purchased;
 
-UPDATE Purchased SET PurchaseQuantity = 5 WHERE CustomerID = (SELECT CustomerID FROM Customers WHERE FirstName = 'Sideshow');
+UPDATE purchased SET purchasequantity = 5 WHERE customerid = (SELECT customerid FROM customers WHERE firstname = 'Sideshow');
 
-SELECT * FROM Purchased;
+SELECT * FROM purchased;
 
 -- every customer that Regis deals with comes from the city of Boston
-SELECT * FROM Customers;
+SELECT * FROM customers;
 
-UPDATE Customers SET City = 'Boston' WHERE Agent = (SELECT AgentID FROM Agents WHERE FirstName = 'Regis');
+UPDATE customers SET city = 'Boston' WHERE agent = (SELECT agentid FROM agents WHERE firstname = 'Regis');
 
-SELECT * FROM Customers;
+SELECT * FROM customers;
 
 -- show all tables
-SELECT * FROM Products;
+SELECT * FROM products;
 
-SELECT * FROM Agents;
+SELECT * FROM agents;
 
-SELECT * FROM Customers;
+SELECT * FROM customers;
 
-SELECT * FROM Purchased;
-
-
-
-
-
-
-
-
+SELECT * FROM purchased;

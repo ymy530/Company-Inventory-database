@@ -1,6 +1,8 @@
+-- build the database
 SHOW DATABASES;
 
 DROP DATABASE IF EXISTS myu94assign2db;
+
 
 CREATE DATABASE myu94assign2db;
 
@@ -8,21 +10,22 @@ SHOW DATABASES;
 
 USE myu94assign2db;
 
-GRANT USAGE ON *.* TO 'ta'@'localhost';
+GRANT USagE ON *.* TO 'ta'@'localhost';
 DROP USER 'ta'@'localhost';
-CREATE USER 'ta'@'localhost' IDENTIFIED BY 'cs3319';
+CREATE USER 'ta'@'localhost' idENTIFIED BY 'cs3319';
 GRANT ALL PRIVILEGES ON yourwesternuseridassign2db.* TO 'ta'@'localhost';
 FLUSH PRIVILEGES;
 
+-- create tables
 SHOW TABLES;
 
-CREATE TABLE Products (ProductID CHAR(2) NOT NULL, Description VARCHAR(20), Cost VARCHAR(10), Quantity VARCHAR(10), PRIMARY KEY (ProductID));
+CREATE TABLE products (productid CHAR(2) NOT NULL, description VARCHAR(20), cost VARCHAR(10), quantity VARCHAR(10), PRIMARY KEY (productid));
 
-CREATE TABLE Agents (AgentID CHAR(2) NOT NULL, FirstName VARCHAR(30), LastName VARCHAR(30), City VARCHAR(15), Commission VARCHAR(10), PRIMARY KEY (AgentID));
+CREATE TABLE agents (agentid CHAR(2) NOT NULL, firstname VARCHAR(30), lastname VARCHAR(30), city VARCHAR(15), commission VARCHAR(10), PRIMARY KEY (agentid));
 
-CREATE TABLE Customers (CustomerID CHAR(2) NOT NULL, FirstName VARCHAR(30), LastName VARCHAR(30), City VARCHAR(15), Phone VARCHAR(15), Agent CHAR(2) NOT NULL, PRIMARY KEY (CustomerID), FOREIGN KEY(Agent) REFERENCES Agents(AgentID) ON DELETE CASCADE);
+CREATE TABLE customers (customerid CHAR(2) NOT NULL, firstname VARCHAR(30), lastname VARCHAR(30), city VARCHAR(15), phone VARCHAR(15), agent CHAR(2) NOT NULL, PRIMARY KEY (customerid), FOREIGN KEY(agent) REFERENCES agents(agentid));
 
-CREATE TABLE Purchased (CustomerID CHAR(2) NOT NULL, PurchaseQuantity VARCHAR(10), ProductID CHAR(2) NOT NULL,  PRIMARY KEY (CustomerID, ProductID), FOREIGN KEY(ProductID) REFERENCES Products(ProductID),FOREIGN KEY(CustomerID) REFERENCES Customers(CustomerID));
+CREATE TABLE purchased (customerid CHAR(2) NOT NULL, purchasequantity VARCHAR(10) NOT NULL, productid CHAR(2) NOT NULL,  PRIMARY KEY (customerid, productid), FOREIGN KEY(productid) REFERENCES products(productid),FOREIGN KEY(customerid) REFERENCES customers(customerid));
 
 SHOW TABLES;
 

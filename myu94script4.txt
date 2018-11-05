@@ -1,40 +1,40 @@
 USE myu94assign2db;
 
-SELECT * FROM Products;
+SELECT * FROM products;
 
-SELECT * FROM Agents;
+SELECT * FROM agents;
 
-SELECT * FROM Customers;
+SELECT * FROM customers;
 
-SELECT * FROM Purchased;
+SELECT * FROM purchased;
 
 -- Create VIEW
 CREATE VIEW v AS 
-SELECT   FirstName, LastName, Description, PurchaseQuantity AS Quantity, Cost, PurchaseQuantity * Cost AS 'Total Cost'
-From Customers INNER JOIN Purchased ON Customers.CustomerID = Purchased.CustomerID
-INNER JOIN Products ON Products.ProductID = Purchased.ProductID
-ORDER BY LastName;
+SELECT   firstname, lastname, description, purchasequantity AS quantity, cost, purchasequantity * cost AS 'Total cost'
+From customers INNER JOIN purchased ON customers.customerid = purchased.customerid
+INNER JOIN products ON products.productid = purchased.productid
+ORDER BY lastname;
 
 -- Select all rows from View
 SELECT * FROM v;
 
---customers spent more than 100 dollars. 
+-- customers spent more than 100 dollars
 SELECT * 
 FROM v
-WHERE Quantity * Cost > 100;
+WHERE quantity * cost > 100;
 
 -- DELETE made up product
-SELECT * FROM Products;
+SELECT * FROM products;
 
-DELETE FROM Products WHERE Description LIKE '%head pads%';
+DELETE FROM products WHERE description LIKE '%head pads%';
 
-SELECT * FROM Products;
+SELECT * FROM products;
 
 -- Delete all agents who are from Springfield
-SELECT * FROM Agents;
+SELECT * FROM agents;
 
-DELETE FROM Agents WHERE City = 'Springfield';
+DELETE FROM agents WHERE city = 'Springfield';
 
-SELECT * FROM Agents;
+SELECT * FROM agents;
 
--- The row for Agent who are from Springfield was deleted because the AgentID is the foreign key in Customers table and the agent from Springfield has two customers in Customers table.
+-- The row for agent who are from Springfield was deleted because the agentid is the foreign key in customers table and the agent from Springfield has two customers in customers table.
